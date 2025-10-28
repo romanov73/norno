@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чек-лист оформления ВКР бакалавра</title>
+    <title>Нормоконтроль пояснительных записок по ВКР магистратуры</title>
     <style>
         * {
             box-sizing: border-box;
@@ -42,29 +42,15 @@
             font-size: 1.1em;
         }
         
-        .student-form {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .degree-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
             font-weight: bold;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
+            display: inline-block;
+            margin-left: 10px;
         }
         
         .section {
@@ -75,7 +61,7 @@
         }
         
         .section-header {
-            background: #3498db;
+            background: #9b59b6;
             color: white;
             padding: 15px 20px;
             cursor: pointer;
@@ -87,7 +73,7 @@
         }
         
         .section-header:hover {
-            background: #2980b9;
+            background: #8e44ad;
         }
         
         .section-content {
@@ -127,8 +113,8 @@
         
         .toggle-notes {
             background: none;
-            border: 1px solid #3498db;
-            color: #3498db;
+            border: 1px solid #9b59b6;
+            color: #9b59b6;
             padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
@@ -138,7 +124,7 @@
         }
         
         .toggle-notes:hover {
-            background: #3498db;
+            background: #9b59b6;
             color: white;
         }
         
@@ -180,6 +166,10 @@
             transition: width 0.5s ease;
         }
         
+        .progress-100 {
+            background: #27ae60 !important;
+        }
+        
         .progress-text {
             font-weight: bold;
             color: #2c3e50;
@@ -191,6 +181,11 @@
             background: #f8f9fa;
             border-radius: 8px;
             border: 1px solid #e9ecef;
+        }
+        
+        .report-success {
+            background: #d4edda !important;
+            border-left: 4px solid #28a745 !important;
         }
         
         .report-container h2 {
@@ -213,8 +208,6 @@
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
         }
         
         button {
@@ -227,12 +220,12 @@
         }
         
         .btn-primary {
-            background: #3498db;
+            background: #9b59b6;
             color: white;
         }
         
         .btn-primary:hover {
-            background: #2980b9;
+            background: #8e44ad;
         }
         
         .btn-success {
@@ -253,24 +246,12 @@
             background: #c0392b;
         }
         
-        .status-message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            text-align: center;
-            display: none;
-        }
-        
-        .status-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .status-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e1;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
         }
         
         .item-counter {
@@ -278,29 +259,21 @@
             color: #7f8c8d;
             margin-left: 10px;
         }
+        
+        .magister-note {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Чек-лист оформления ВКР бакалавра</h1>
-        <div class="subtitle">Проверка пояснительной записки по методическим указаниям УлГТУ</div>
-        
-        <!-- Форма ввода данных студента -->
-        <div class="student-form">
-            <h3>Данные студента</h3>
-            <div class="form-group">
-                <label for="student-fio">ФИО студента *</label>
-                <input type="text" id="student-fio" placeholder="Иванов Иван Иванович" required>
-            </div>
-            <div class="form-group">
-                <label for="student-group">Группа</label>
-                <input type="text" id="student-group" placeholder="БАИ-21-1">
-            </div>
-            <div class="form-group">
-                <label for="student-theme">Тема работы</label>
-                <input type="text" id="student-theme" placeholder="Тема выпускной квалификационной работы">
-            </div>
-        </div>
+        <h1>Нормоконтроль пояснительных записок по ВКР магистратуры</h1>
+        <div class="subtitle">Проверка магистерской диссертации по методическим указаниям УлГТУ</div>
         
         <div class="progress-container">
             <div class="progress-text">Общий прогресс: <span id="progress-percent">0%</span></div>
@@ -316,7 +289,6 @@
         
         <div class="report-container">
             <h2>Отчет по проверке</h2>
-            <div id="status-message" class="status-message"></div>
             <textarea id="report-text" placeholder="Здесь будет автоматически сформирован отчет о проверке..."></textarea>
             <div class="controls">
                 <button id="generate-report" class="btn-primary">Сформировать отчет</button>
@@ -324,16 +296,10 @@
                 <button id="reset-checklist" class="btn-danger">Сбросить чек-лист</button>
             </div>
         </div>
-        
-        <div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 5px; border-left: 4px solid #ffc107;">
-            <h3>Интеграция с Google Таблицами</h3>
-            <p>При нажатии кнопки "Сформировать отчет" данные автоматически отправляются в Google Таблицу</p>
-            <p><strong>ID вашей Google таблицы:</strong> <input type="text" id="sheet-id" placeholder="Введите ID таблицы" style="padding: 5px; width: 300px; margin-left: 10px;"></p>
-        </div>
     </div>
 
     <script>
-        // Данные чек-листа
+        // Данные чек-листа для магистратуры
         const checklistData = [
             {
                 title: "1. Общие требования к документу",
@@ -341,28 +307,29 @@
                     "Формат и поля: Лист А4. Поля: левое — 30 мм, правое — 10 мм, верхнее и нижнее — 20 мм",
                     "Шрифт и интервал: Основной текст — Times New Roman, 14 пт, или Arial, 12 пт. Межстрочный интервал — 1,5",
                     "Цвет: Черный",
-                    "Рамка: Каждый лист заключен в рамку (для технических направлений)",
-                    "Нумерация страниц: Сквозная, арабскими цифрами, внизу по центру без точек и черточек. Титульный лист включается в нумерацию, но номер на нем не ставится"
+                    "Нумерация страниц: Сквозная, арабскими цифрами, внизу по центру без точек и черточек. Титульный лист включается в нумерацию, но номер на нем не ставится",
+                    "Объем работы: 60-80 страниц без учета приложений"
                 ]
             },
             {
                 title: "2. Структурные элементы (порядок и наличие)",
                 items: [
-                    "Титульный лист (Приложение А)",
-                    "Задание на ВКР (Приложение Б)",
+                    "Титульный лист (Приложение А) с данными о рецензенте",
+                    "Задание на магистерскую диссертацию (Приложение Б)",
                     "Реферат (аннотация)",
                     "Пояснительная записка, содержащая: Содержание (оглавление)",
-                    "Пояснительная записка, содержащая: Перечень условных обозначений, сокращений, терминов",
-                    "Пояснительная записка, содержащая: Введение",
-                    "Пояснительная записка, содержащая: Основная часть",
+                    "Пояснительная записка, содержащая: Перечень используемых условных обозначений, сокращений, терминов",
+                    "Пояснительная записка, содержащая: Введение с обоснованием научной новизны",
+                    "Пояснительная записка, содержащая: Основная часть с научным обзором, собственными методами, программной реализацией и экспериментами",
                     "Пояснительная записка, содержащая: Заключение",
-                    "Пояснительная записка, содержащая: Список использованных источников",
+                    "Пояснительная записка, содержащая: Список использованных источников (не менее 30)",
                     "Пояснительная записка, содержащая: Приложения",
                     "Последний лист с заявлением о самостоятельности работы (Приложение Е)",
                     "Вложены, но не подшиты: Отзыв руководителя (Приложение В)",
+                    "Вложены, но не подшиты: Отзыв рецензента (Приложение Г)",
                     "Вложены, но не подшиты: Первый лист антиплагиата с подписью автора",
-                    "Вложены, но не подшиты: Заявление о самостоятельности (Приложение Д)",
-                    "Вложены, но не подшиты: Отзыв специалиста-практика (при наличии)",
+                    "Вложены, но не подшиты: Заявление о самостоятельности работы (Приложение Д)",
+                    "Вложены, но не подшиты: Отзыв от специалиста-практика (при наличии)",
                     "Вложены, но не подшиты: Акт о внедрении (при наличии)"
                 ]
             },
@@ -372,7 +339,68 @@
                     "Новая страница: Каждый структурный элемент (введение, глава, заключение, список литературы, приложение) начинается с новой страницы",
                     "Нумерация разделов: Арабские цифры с точками (например, 1.2.1). Точка в конце номера не ставится",
                     "Заголовки: Пишутся с абзацного отступа, без точки в конце, с прописной буквы. Переносы слов не допускаются",
-                    "Расстояния: Между заголовком и текстом — 1 пустая строка (при интервале 1,5). Между заголовком главы и параграфа — 2 интервала (8 мм)"
+                    "Расстояния: Между заголовком и текстом — 1 пустая строка (при интервале 1,5). Между заголовком главы и параграфа — 2 интервала (8 мм)",
+                    "Абзацный отступ: Равен 5 знакам (12,5–17 мм)"
+                ]
+            },
+            {
+                title: "4. Оформление текста",
+                items: [
+                    "Перечисления: Перед каждым элементом — дефис, строчная буква или знак ●. Детализация — арабскими цифрами со скобкой",
+                    "Числа: До десяти без единиц измерения — словами, после десяти и с единицами — цифрами",
+                    "Сокращения: Стандартные сокращения (и т.д., и т.п., см., рис., табл.). Запрещенные сокращения (т.к., т.н., т.о.) не используются",
+                    "Научная терминология: Корректное использование принятой научной терминологии",
+                    "Стиль изложения: Научный стиль, логическая последовательность, убедительная аргументация"
+                ]
+            },
+            {
+                title: "5. Специальные элементы",
+                items: [
+                    "Формулы: Выделены в отдельную строку, с пустой строкой до и после. Нумерация сквозная арабскими цифрами в круглых скобках справа",
+                    "Таблицы: Нумерация сквозная или в пределах раздела. Над таблицей слева: «Таблица X -- Название» (без точки в конце)",
+                    "Рисунки: Нумерация сквозная или в пределах раздела. Под рисунком по центру: «Рисунок X -- Название» (без точки в конце)",
+                    "Ссылки: На все таблицы, рисунки и приложения в тексте должны быть ссылки"
+                ]
+            },
+            {
+                title: "6. Список литературы",
+                items: [
+                    "Количество: Не менее 30 источников",
+                    "Ссылки в тексте: На более чем 80% источников из списка должна быть хотя бы одна ссылка в тексте",
+                    "Порядок: Нормативные акты -> Книги -> Периодика -> Локальные электронные ресурсы -> Интернет-источники",
+                    "Оформление записей: По ГОСТ Р 7.0.100-2018. Области описания разделяются точкой и тире (. - )",
+                    "Алфавитный порядок: В каждом разделе сначала на русском языке, потом на иностранных"
+                ]
+            },
+            {
+                title: "7. Приложения",
+                items: [
+                    "Наличие: Обязателен листинг программы. Приложения есть",
+                    "Ссылки: В тексте обязательны ссылки на каждое приложение",
+                    "Оформление: Каждое приложение начинается с новой страницы с надписью «ПРИЛОЖЕНИЕ X» по центру сверху",
+                    "Обозначение: Заглавными русскими (кроме Ё, З, Й, О, Ч, Ь, Ы, Ъ) или латинскими (кроме I и O) буквами",
+                    "Нумерация: Страницы приложений входят в общую сквозную нумерацию работы"
+                ]
+            },
+            {
+                title: "8. Научная составляющая (особое внимание для магистров)",
+                items: [
+                    "Научная новизна: Четко сформулирована и обоснована во введении",
+                    "Научный обзор: Представлен анализ существующих методов и решений в проблемной области",
+                    "Собственные разработки: Детально представлены собственные методы, алгоритмы с выделением научной новизны",
+                    "Сравнительный анализ: Проведено сравнение предлагаемых решений с существующими аналогами",
+                    "Экспериментальная часть: Представлены качественные эксперименты, подтверждающие достижение целей",
+                    "Апробация результатов: При наличии - указаны публикации, выступления на конференциях"
+                ]
+            },
+            {
+                title: "9. Нормоконтроль (проверка перед сдачей)",
+                items: [
+                    "Комплектность: Все документы присутствуют, включая отзыв рецензента",
+                    "Тема: Соответствует утвержденной приказом",
+                    "Обозначение ВКР: Корректно оформлено (например, МД – УлГТУ – 09.04.03 – 01/0180 – 2024)",
+                    "Структура ПЗ: Полностью соответствует методическим указаниям для магистров",
+                    "Подписи: На титульных листах присутствуют подписи студента, руководителя, рецензента и нормоконтролера"
                 ]
             }
         ];
@@ -381,9 +409,6 @@
         let checklistState = {};
         let notesState = {};
 
-        // Конфигурация Google Sheets
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMdcitlcWm81t0CQhcPe3PesUD3xX9qwTf8BaXUd39T5NpnYYn8gOfm7a6nyre2b6I/exec'; // Замените на URL вашего Google Apps Script
-
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initializeChecklist();
@@ -391,7 +416,7 @@
             updateProgress();
             
             // Обработчики событий
-            document.getElementById('generate-report').addEventListener('click', generateAndSendReport);
+            document.getElementById('generate-report').addEventListener('click', generateReport);
             document.getElementById('copy-report').addEventListener('click', copyReport);
             document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
         });
@@ -418,6 +443,28 @@
                 // Контент секции
                 const content = document.createElement('div');
                 content.className = 'section-content';
+                
+                // Добавляем специальные заметки для магистров в определенные секции
+                if (sectionIndex === 1) {
+                    const note = document.createElement('div');
+                    note.className = 'magister-note';
+                    note.innerHTML = '<strong>Для магистров:</strong> Обязательно наличие отзыва рецензента в отличие от бакалаврских работ';
+                    content.appendChild(note);
+                }
+                
+                if (sectionIndex === 5) {
+                    const note = document.createElement('div');
+                    note.className = 'magister-note';
+                    note.innerHTML = '<strong>Для магистров:</strong> Требуется не менее 30 источников литературы (для бакалавров - 20)';
+                    content.appendChild(note);
+                }
+                
+                if (sectionIndex === 7) {
+                    const note = document.createElement('div');
+                    note.className = 'magister-note';
+                    note.innerHTML = '<strong>Для магистров:</strong> Научная новизна - обязательное требование для магистерской диссертации';
+                    content.appendChild(note);
+                }
                 
                 section.items.forEach((item, itemIndex) => {
                     const itemId = `item-${sectionIndex}-${itemIndex}`;
@@ -492,18 +539,26 @@
             document.getElementById('completed-count').textContent = completedItems;
             document.getElementById('progress-percent').textContent = `${progressPercent}%`;
             document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            // Добавляем специальный класс для 100% выполнения
+            const progressFill = document.getElementById('progress-fill');
+            if (progressPercent === 100) {
+                progressFill.classList.add('progress-100');
+            } else {
+                progressFill.classList.remove('progress-100');
+            }
         }
 
         // Сохранение состояния в localStorage
         function saveState() {
-            localStorage.setItem('checklistState', JSON.stringify(checklistState));
-            localStorage.setItem('notesState', JSON.stringify(notesState));
+            localStorage.setItem('magister_checklistState', JSON.stringify(checklistState));
+            localStorage.setItem('magister_notesState', JSON.stringify(notesState));
         }
 
         // Загрузка состояния из localStorage
         function loadSavedState() {
-            const savedChecklistState = localStorage.getItem('checklistState');
-            const savedNotesState = localStorage.getItem('notesState');
+            const savedChecklistState = localStorage.getItem('magister_checklistState');
+            const savedNotesState = localStorage.getItem('magister_notesState');
             
             if (savedChecklistState) {
                 checklistState = JSON.parse(savedChecklistState);
@@ -533,8 +588,8 @@
         // Сброс чек-листа
         function resetChecklist() {
             if (confirm('Вы уверены, что хотите сбросить весь чек-лист? Все данные будут удалены.')) {
-                localStorage.removeItem('checklistState');
-                localStorage.removeItem('notesState');
+                localStorage.removeItem('magister_checklistState');
+                localStorage.removeItem('magister_notesState');
                 
                 // Сброс чекбоксов
                 Object.keys(checklistState).forEach(itemId => {
@@ -556,32 +611,6 @@
                 
                 updateProgress();
                 document.getElementById('report-text').value = '';
-                showStatus('Чек-лист сброшен', 'success');
-            }
-        }
-
-        // Генерация и отправка отчета
-        async function generateAndSendReport() {
-            const fio = document.getElementById('student-fio').value.trim();
-            const group = document.getElementById('student-group').value.trim();
-            const theme = document.getElementById('student-theme').value.trim();
-            
-            if (!fio) {
-                showStatus('Пожалуйста, укажите ФИО студента', 'error');
-                return;
-            }
-            
-            // Генерируем отчет
-            const report = generateReport();
-            document.getElementById('report-text').value = report;
-            
-            // Отправляем в Google Таблицы
-            try {
-                await sendToGoogleSheets(fio, group, theme, report);
-                showStatus('Отчет сформирован и отправлен в Google Таблицы!', 'success');
-            } catch (error) {
-                console.error('Ошибка отправки в Google Таблицы:', error);
-                showStatus('Отчет сформирован, но не отправлен в Google Таблицы. Ошибка: ' + error.message, 'error');
             }
         }
 
@@ -591,15 +620,24 @@
             const totalItems = Object.keys(checklistState).length;
             const progressPercent = Math.round((completedItems / totalItems) * 100);
             
-            const fio = document.getElementById('student-fio').value.trim();
-            const group = document.getElementById('student-group').value.trim();
-            const theme = document.getElementById('student-theme').value.trim();
+            // Если все пункты выполнены (100%) - выводим краткое сообщение
+            if (progressPercent === 100) {
+                let report = `ОТЧЕТ ПРОВЕРКИ МАГИСТЕРСКОЙ ДИССЕРТАЦИИ\n`;
+                report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n\n`;
+                report += `✅ НОРМОКОНТРОЛЬ ПРОЙДЕН УСПЕШНО!\n\n`;
+                report += `Все требования к оформлению магистерской диссертации выполнены.\n`;
+                report += `Работа соответствует методическим указаниям УлГТУ для магистров.\n`;
+                report += `Научная составляющая и оформление работы соответствуют требованиям.\n`;
+                report += `Рекомендуется к допуску на защиту.\n\n`;
+                report += `Выполнено: ${completedItems} из ${totalItems} пунктов (100%)`;
+                
+                document.getElementById('report-text').value = report;
+                return;
+            }
             
-            let report = `ОТЧЕТ ПРОВЕРКИ ВКР\n`;
+            // Стандартный отчет для случаев, когда выполнено не все
+            let report = `ОТЧЕТ ПРОВЕРКИ МАГИСТЕРСКОЙ ДИССЕРТАЦИИ\n`;
             report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n`;
-            report += `Студент: ${fio}\n`;
-            report += `Группа: ${group || 'Не указана'}\n`;
-            report += `Тема: ${theme || 'Не указана'}\n`;
             report += `Общий прогресс: ${progressPercent}% (${completedItems} из ${totalItems} пунктов)\n\n`;
             
             // Добавляем выполненные пункты
@@ -634,7 +672,7 @@
             }
             
             // Добавляем невыполненные пункты
-            report += `\nНЕВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
+            report += `\nНЕВЫПОЛНЕННЫЕ ПУНКТЫ (требуют внимания):\n`;
             let hasIncomplete = false;
             
             checklistData.forEach((section, sectionIndex) => {
@@ -660,60 +698,27 @@
                 }
             });
             
-            return report;
-        }
-
-        // Отправка данных в Google Таблицы
-        async function sendToGoogleSheets(fio, group, theme, report) {
-            const sheetId = document.getElementById('sheet-id').value.trim();
-            
-            if (!sheetId) {
-                throw new Error('Укажите ID Google таблицы');
+            if (!hasIncomplete) {
+                report += `Все пункты выполнены!\n`;
             }
             
-            const data = {
-                sheetId: sheetId,
-                student: {
-                    fio: fio,
-                    group: group || '',
-                    theme: theme || '',
-                    report: report,
-                    date: new Date().toISOString(),
-                    progress: Math.round((Object.values(checklistState).filter(Boolean).length / Object.keys(checklistState).length) * 100)
-                }
-            };
-            
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Добавляем рекомендации
+            report += `\nРЕКОМЕНДАЦИИ ДЛЯ МАГИСТЕРСКОЙ ДИССЕРТАЦИИ:\n`;
+            if (progressPercent < 50) {
+                report += `- Необходимо уделить больше внимания оформлению работы\n`;
+                report += `- Особое внимание следует обратить на научную составляющую и новизну работы\n`;
+                report += `- Рекомендуется начать с основных структурных элементов\n`;
+            } else if (progressPercent < 80) {
+                report += `- Работа близка к завершению, но требуется доработка некоторых пунктов\n`;
+                report += `- Проверьте оформление специальных элементов (формулы, таблицы, рисунки)\n`;
+                report += `- Убедитесь в наличии и корректности отзыва рецензента\n`;
+            } else if (progressPercent < 100) {
+                report += `- Работа оформлена хорошо, остались незначительные недочеты\n`;
+                report += `- Проведите финальную проверку научной составляющей перед сдачей\n`;
+                report += `- Убедитесь, что научная новизна четко сформулирована и обоснована\n`;
             }
             
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'Unknown error');
-            }
-            
-            return result;
-        }
-
-        // Показать статус
-        function showStatus(message, type) {
-            const statusElement = document.getElementById('status-message');
-            statusElement.textContent = message;
-            statusElement.className = `status-message status-${type}`;
-            statusElement.style.display = 'block';
-            
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-            }, 5000);
+            document.getElementById('report-text').value = report;
         }
 
         // Копирование отчета в буфер обмена
@@ -721,7 +726,7 @@
             const reportTextarea = document.getElementById('report-text');
             reportTextarea.select();
             document.execCommand('copy');
-            showStatus('Отчет скопирован в буфер обмена!', 'success');
+            alert('Отчет скопирован в буфер обмена!');
         }
     </script>
 </body>
