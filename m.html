@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чек-лист оформления ВКР бакалавра</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .student-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #3498db;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .section-header:hover {
+            background: #2980b9;
+        }
+        
+        .section-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .section.expanded .section-content {
+            max-height: 5000px;
+            padding: 20px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .checklist-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            transform: scale(1.2);
+        }
+        
+        .item-text {
+            flex-grow: 1;
+        }
+        
+        .toggle-notes {
+            background: none;
+            border: 1px solid #3498db;
+            color: #3498db;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 10px;
+            transition: all 0.2s;
+        }
+        
+        .toggle-notes:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        .notes-container {
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .notes-container textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .progress-container {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #2ecc71;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .report-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .report-container h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .report-container textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 1em;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #27ae60;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .item-counter {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Чек-лист оформления ВКР бакалавра</h1>
+        <div class="subtitle">Проверка пояснительной записки по методическим указаниям УлГТУ</div>
+        
+        <!-- Форма ввода данных студента -->
+        <div class="student-form">
+            <h3>Данные студента</h3>
+            <div class="form-group">
+                <label for="student-fio">ФИО студента *</label>
+                <input type="text" id="student-fio" placeholder="Иванов Иван Иванович" required>
+            </div>
+            <div class="form-group">
+                <label for="student-group">Группа</label>
+                <input type="text" id="student-group" placeholder="БАИ-21-1">
+            </div>
+            <div class="form-group">
+                <label for="student-theme">Тема работы</label>
+                <input type="text" id="student-theme" placeholder="Тема выпускной квалификационной работы">
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-text">Общий прогресс: <span id="progress-percent">0%</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div>Выполнено: <span id="completed-count">0</span> из <span id="total-count">0</span> пунктов</div>
+        </div>
+        
+        <div id="checklist-container">
+            <!-- Секции будут сгенерированы через JavaScript -->
+        </div>
+        
+        <div class="report-container">
+            <h2>Отчет по проверке</h2>
+            <div id="status-message" class="status-message"></div>
+            <textarea id="report-text" placeholder="Здесь будет автоматически сформирован отчет о проверке..."></textarea>
+            <div class="controls">
+                <button id="generate-report" class="btn-primary">Сформировать отчет</button>
+                <button id="copy-report" class="btn-success">Копировать отчет</button>
+                <button id="reset-checklist" class="btn-danger">Сбросить чек-лист</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 5px; border-left: 4px solid #ffc107;">
+            <h3>Интеграция с Google Таблицами</h3>
+            <p>При нажатии кнопки "Сформировать отчет" данные автоматически отправляются в Google Таблицу</p>
+            <p><strong>ID вашей Google таблицы:</strong> <input type="text" id="sheet-id" placeholder="Введите ID таблицы" style="padding: 5px; width: 300px; margin-left: 10px;"></p>
+        </div>
+    </div>
+
+    <script>
+        // Данные чек-листа
+        const checklistData = [
+            {
+                title: "1. Общие требования к документу",
+                items: [
+                    "Формат и поля: Лист А4. Поля: левое — 30 мм, правое — 10 мм, верхнее и нижнее — 20 мм",
+                    "Шрифт и интервал: Основной текст — Times New Roman, 14 пт, или Arial, 12 пт. Межстрочный интервал — 1,5",
+                    "Цвет: Черный",
+                    "Рамка: Каждый лист заключен в рамку (для технических направлений)",
+                    "Нумерация страниц: Сквозная, арабскими цифрами, внизу по центру без точек и черточек. Титульный лист включается в нумерацию, но номер на нем не ставится"
+                ]
+            },
+            {
+                title: "2. Структурные элементы (порядок и наличие)",
+                items: [
+                    "Титульный лист (Приложение А)",
+                    "Задание на ВКР (Приложение Б)",
+                    "Реферат (аннотация)",
+                    "Пояснительная записка, содержащая: Содержание (оглавление)",
+                    "Пояснительная записка, содержащая: Перечень условных обозначений, сокращений, терминов",
+                    "Пояснительная записка, содержащая: Введение",
+                    "Пояснительная записка, содержащая: Основная часть",
+                    "Пояснительная записка, содержащая: Заключение",
+                    "Пояснительная записка, содержащая: Список использованных источников",
+                    "Пояснительная записка, содержащая: Приложения",
+                    "Последний лист с заявлением о самостоятельности работы (Приложение Е)",
+                    "Вложены, но не подшиты: Отзыв руководителя (Приложение В)",
+                    "Вложены, но не подшиты: Первый лист антиплагиата с подписью автора",
+                    "Вложены, но не подшиты: Заявление о самостоятельности (Приложение Д)",
+                    "Вложены, но не подшиты: Отзыв специалиста-практика (при наличии)",
+                    "Вложены, но не подшиты: Акт о внедрении (при наличии)"
+                ]
+            },
+            {
+                title: "3. Оформление разделов и заголовков",
+                items: [
+                    "Новая страница: Каждый структурный элемент (введение, глава, заключение, список литературы, приложение) начинается с новой страницы",
+                    "Нумерация разделов: Арабские цифры с точками (например, 1.2.1). Точка в конце номера не ставится",
+                    "Заголовки: Пишутся с абзацного отступа, без точки в конце, с прописной буквы. Переносы слов не допускаются",
+                    "Расстояния: Между заголовком и текстом — 1 пустая строка (при интервале 1,5). Между заголовком главы и параграфа — 2 интервала (8 мм)"
+                ]
+            }
+        ];
+
+        // Глобальные переменные
+        let checklistState = {};
+        let notesState = {};
+
+        // Конфигурация Google Sheets
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMdcitlcWm81t0CQhcPe3PesUD3xX9qwTf8BaXUd39T5NpnYYn8gOfm7a6nyre2b6I/exec'; // Замените на URL вашего Google Apps Script
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChecklist();
+            loadSavedState();
+            updateProgress();
+            
+            // Обработчики событий
+            document.getElementById('generate-report').addEventListener('click', generateAndSendReport);
+            document.getElementById('copy-report').addEventListener('click', copyReport);
+            document.getElementById('reset-checklist').addEventListener('click', resetChecklist);
+        });
+
+        // Инициализация чек-листа
+        function initializeChecklist() {
+            const container = document.getElementById('checklist-container');
+            let totalItems = 0;
+            
+            checklistData.forEach((section, sectionIndex) => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'section';
+                sectionElement.id = `section-${sectionIndex}`;
+                
+                // Заголовок секции
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `
+                    ${section.title}
+                    <span class="item-counter">${section.items.length} пунктов</span>
+                `;
+                header.addEventListener('click', () => toggleSection(sectionIndex));
+                
+                // Контент секции
+                const content = document.createElement('div');
+                content.className = 'section-content';
+                
+                section.items.forEach((item, itemIndex) => {
+                    const itemId = `item-${sectionIndex}-${itemIndex}`;
+                    totalItems++;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'checklist-item';
+                    
+                    itemElement.innerHTML = `
+                        <input type="checkbox" id="${itemId}">
+                        <div class="item-text">${item}</div>
+                        <button class="toggle-notes" data-item="${itemId}">Заметки</button>
+                        <div class="notes-container" id="notes-${itemId}">
+                            <textarea placeholder="Добавьте замечания по этому пункту..."></textarea>
+                        </div>
+                    `;
+                    
+                    content.appendChild(itemElement);
+                    
+                    // Инициализация состояния
+                    checklistState[itemId] = false;
+                    notesState[itemId] = '';
+                    
+                    // Обработчики для чекбоксов
+                    const checkbox = itemElement.querySelector('input[type="checkbox"]');
+                    checkbox.addEventListener('change', function() {
+                        checklistState[itemId] = this.checked;
+                        saveState();
+                        updateProgress();
+                    });
+                    
+                    // Обработчики для кнопок заметок
+                    const notesButton = itemElement.querySelector('.toggle-notes');
+                    notesButton.addEventListener('click', function() {
+                        const notesContainer = document.getElementById(`notes-${itemId}`);
+                        const isVisible = notesContainer.style.display === 'block';
+                        notesContainer.style.display = isVisible ? 'none' : 'block';
+                        this.textContent = isVisible ? 'Заметки' : 'Скрыть';
+                    });
+                    
+                    // Обработчики для текстовых полей заметок
+                    const textarea = itemElement.querySelector('textarea');
+                    textarea.addEventListener('input', function() {
+                        notesState[itemId] = this.value;
+                        saveState();
+                    });
+                });
+                
+                sectionElement.appendChild(header);
+                sectionElement.appendChild(content);
+                container.appendChild(sectionElement);
+            });
+            
+            document.getElementById('total-count').textContent = totalItems;
+            
+            // Раскрываем первую секцию по умолчанию
+            toggleSection(0);
+        }
+
+        // Переключение видимости секции
+        function toggleSection(sectionIndex) {
+            const section = document.getElementById(`section-${sectionIndex}`);
+            section.classList.toggle('expanded');
+        }
+
+        // Обновление прогресса
+        function updateProgress() {
+            const totalItems = Object.keys(checklistState).length;
+            const completedItems = Object.values(checklistState).filter(Boolean).length;
+            const progressPercent = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            
+            document.getElementById('completed-count').textContent = completedItems;
+            document.getElementById('progress-percent').textContent = `${progressPercent}%`;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+        }
+
+        // Сохранение состояния в localStorage
+        function saveState() {
+            localStorage.setItem('checklistState', JSON.stringify(checklistState));
+            localStorage.setItem('notesState', JSON.stringify(notesState));
+        }
+
+        // Загрузка состояния из localStorage
+        function loadSavedState() {
+            const savedChecklistState = localStorage.getItem('checklistState');
+            const savedNotesState = localStorage.getItem('notesState');
+            
+            if (savedChecklistState) {
+                checklistState = JSON.parse(savedChecklistState);
+                
+                // Обновление чекбоксов
+                Object.keys(checklistState).forEach(itemId => {
+                    const checkbox = document.getElementById(itemId);
+                    if (checkbox) {
+                        checkbox.checked = checklistState[itemId];
+                    }
+                });
+            }
+            
+            if (savedNotesState) {
+                notesState = JSON.parse(savedNotesState);
+                
+                // Обновление текстовых полей
+                Object.keys(notesState).forEach(itemId => {
+                    const textarea = document.querySelector(`#notes-${itemId} textarea`);
+                    if (textarea) {
+                        textarea.value = notesState[itemId];
+                    }
+                });
+            }
+        }
+
+        // Сброс чек-листа
+        function resetChecklist() {
+            if (confirm('Вы уверены, что хотите сбросить весь чек-лист? Все данные будут удалены.')) {
+                localStorage.removeItem('checklistState');
+                localStorage.removeItem('notesState');
+                
+                // Сброс чекбоксов
+                Object.keys(checklistState).forEach(itemId => {
+                    checklistState[itemId] = false;
+                    const checkbox = document.getElementById(itemId);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                });
+                
+                // Сброс заметок
+                Object.keys(notesState).forEach(itemId => {
+                    notesState[itemId] = '';
+                    const textarea = document.querySelector(`#notes-${itemId} textarea`);
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                });
+                
+                updateProgress();
+                document.getElementById('report-text').value = '';
+                showStatus('Чек-лист сброшен', 'success');
+            }
+        }
+
+        // Генерация и отправка отчета
+        async function generateAndSendReport() {
+            const fio = document.getElementById('student-fio').value.trim();
+            const group = document.getElementById('student-group').value.trim();
+            const theme = document.getElementById('student-theme').value.trim();
+            
+            if (!fio) {
+                showStatus('Пожалуйста, укажите ФИО студента', 'error');
+                return;
+            }
+            
+            // Генерируем отчет
+            const report = generateReport();
+            document.getElementById('report-text').value = report;
+            
+            // Отправляем в Google Таблицы
+            try {
+                await sendToGoogleSheets(fio, group, theme, report);
+                showStatus('Отчет сформирован и отправлен в Google Таблицы!', 'success');
+            } catch (error) {
+                console.error('Ошибка отправки в Google Таблицы:', error);
+                showStatus('Отчет сформирован, но не отправлен в Google Таблицы. Ошибка: ' + error.message, 'error');
+            }
+        }
+
+        // Генерация отчета
+        function generateReport() {
+            const completedItems = Object.values(checklistState).filter(Boolean).length;
+            const totalItems = Object.keys(checklistState).length;
+            const progressPercent = Math.round((completedItems / totalItems) * 100);
+            
+            const fio = document.getElementById('student-fio').value.trim();
+            const group = document.getElementById('student-group').value.trim();
+            const theme = document.getElementById('student-theme').value.trim();
+            
+            let report = `ОТЧЕТ ПРОВЕРКИ ВКР\n`;
+            report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n`;
+            report += `Студент: ${fio}\n`;
+            report += `Группа: ${group || 'Не указана'}\n`;
+            report += `Тема: ${theme || 'Не указана'}\n`;
+            report += `Общий прогресс: ${progressPercent}% (${completedItems} из ${totalItems} пунктов)\n\n`;
+            
+            // Добавляем выполненные пункты
+            report += `ВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
+            let hasCompleted = false;
+            
+            checklistData.forEach((section, sectionIndex) => {
+                let sectionCompleted = false;
+                let sectionReport = '';
+                
+                section.items.forEach((item, itemIndex) => {
+                    const itemId = `item-${sectionIndex}-${itemIndex}`;
+                    if (checklistState[itemId]) {
+                        sectionCompleted = true;
+                        hasCompleted = true;
+                        sectionReport += `✓ ${item}\n`;
+                        
+                        // Добавляем заметки, если они есть
+                        if (notesState[itemId] && notesState[itemId].trim() !== '') {
+                            sectionReport += `   Заметки: ${notesState[itemId]}\n`;
+                        }
+                    }
+                });
+                
+                if (sectionCompleted) {
+                    report += `\n${section.title}:\n${sectionReport}`;
+                }
+            });
+            
+            if (!hasCompleted) {
+                report += `Нет выполненных пунктов\n`;
+            }
+            
+            // Добавляем невыполненные пункты
+            report += `\nНЕВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
+            let hasIncomplete = false;
+            
+            checklistData.forEach((section, sectionIndex) => {
+                let sectionIncomplete = false;
+                let sectionReport = '';
+                
+                section.items.forEach((item, itemIndex) => {
+                    const itemId = `item-${sectionIndex}-${itemIndex}`;
+                    if (!checklistState[itemId]) {
+                        sectionIncomplete = true;
+                        hasIncomplete = true;
+                        sectionReport += `✗ ${item}\n`;
+                        
+                        // Добавляем заметки, если они есть
+                        if (notesState[itemId] && notesState[itemId].trim() !== '') {
+                            sectionReport += `   Заметки: ${notesState[itemId]}\n`;
+                        }
+                    }
+                });
+                
+                if (sectionIncomplete) {
+                    report += `\n${section.title}:\n${sectionReport}`;
+                }
+            });
+            
+            return report;
+        }
+
+        // Отправка данных в Google Таблицы
+        async function sendToGoogleSheets(fio, group, theme, report) {
+            const sheetId = document.getElementById('sheet-id').value.trim();
+            
+            if (!sheetId) {
+                throw new Error('Укажите ID Google таблицы');
+            }
+            
+            const data = {
+                sheetId: sheetId,
+                student: {
+                    fio: fio,
+                    group: group || '',
+                    theme: theme || '',
+                    report: report,
+                    date: new Date().toISOString(),
+                    progress: Math.round((Object.values(checklistState).filter(Boolean).length / Object.keys(checklistState).length) * 100)
+                }
+            };
+            
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'Unknown error');
+            }
+            
+            return result;
+        }
+
+        // Показать статус
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('status-message');
+            statusElement.textContent = message;
+            statusElement.className = `status-message status-${type}`;
+            statusElement.style.display = 'block';
+            
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Копирование отчета в буфер обмена
+        function copyReport() {
+            const reportTextarea = document.getElementById('report-text');
+            reportTextarea.select();
+            document.execCommand('copy');
+            showStatus('Отчет скопирован в буфер обмена!', 'success');
+        }
+    </script>
+</body>
+</html>
