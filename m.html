@@ -90,6 +90,7 @@
         
         .checklist-item {
             display: flex;
+            flex-direction: column;
             align-items: flex-start;
             margin-bottom: 15px;
             padding: 10px;
@@ -99,6 +100,12 @@
         
         .checklist-item:hover {
             background-color: #f9f9f9;
+        }
+        
+        .item-content {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
         }
         
         .checklist-item input[type="checkbox"] {
@@ -121,6 +128,7 @@
             font-size: 0.85em;
             margin-left: 10px;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         
         .toggle-notes:hover {
@@ -130,6 +138,7 @@
         
         .notes-container {
             margin-top: 10px;
+            width: 100%;
             display: none;
         }
         
@@ -474,9 +483,11 @@
                     itemElement.className = 'checklist-item';
                     
                     itemElement.innerHTML = `
-                        <input type="checkbox" id="${itemId}">
-                        <div class="item-text">${item}</div>
-                        <button class="toggle-notes" data-item="${itemId}">Заметки</button>
+                        <div class="item-content">
+                            <input type="checkbox" id="${itemId}">
+                            <div class="item-text">${item}</div>
+                            <button class="toggle-notes" data-item="${itemId}">Заметки</button>
+                        </div>
                         <div class="notes-container" id="notes-${itemId}">
                             <textarea placeholder="Добавьте замечания по этому пункту..."></textarea>
                         </div>

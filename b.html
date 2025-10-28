@@ -79,6 +79,7 @@
         
         .checklist-item {
             display: flex;
+            flex-direction: column;
             align-items: flex-start;
             margin-bottom: 15px;
             padding: 10px;
@@ -88,6 +89,12 @@
         
         .checklist-item:hover {
             background-color: #f9f9f9;
+        }
+        
+        .item-content {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
         }
         
         .checklist-item input[type="checkbox"] {
@@ -110,6 +117,7 @@
             font-size: 0.85em;
             margin-left: 10px;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         
         .toggle-notes:hover {
@@ -119,6 +127,7 @@
         
         .notes-container {
             margin-top: 10px;
+            width: 100%;
             display: none;
         }
         
@@ -239,14 +248,15 @@
             color: #7f8c8d;
             margin-left: 10px;
         }
-.progress-100 {
-    background: #2ecc71 !important;
-}
+        
+        .progress-100 {
+            background: #2ecc71 !important;
+        }
 
-.report-success {
-    background: #d4edda !important;
-    border-left: 4px solid #28a745 !important;
-}
+        .report-success {
+            background: #d4edda !important;
+            border-left: 4px solid #28a745 !important;
+        }
     </style>
 </head>
 <body>
@@ -414,9 +424,11 @@
                     itemElement.className = 'checklist-item';
                     
                     itemElement.innerHTML = `
-                        <input type="checkbox" id="${itemId}">
-                        <div class="item-text">${item}</div>
-                        <button class="toggle-notes" data-item="${itemId}">Заметки</button>
+                        <div class="item-content">
+                            <input type="checkbox" id="${itemId}">
+                            <div class="item-text">${item}</div>
+                            <button class="toggle-notes" data-item="${itemId}">Заметки</button>
+                        </div>
                         <div class="notes-container" id="notes-${itemId}">
                             <textarea placeholder="Добавьте замечания по этому пункту..."></textarea>
                         </div>
@@ -471,23 +483,23 @@
         }
 
         // Обновление прогресса
-function updateProgress() {
-    const totalItems = Object.keys(checklistState).length;
-    const completedItems = Object.values(checklistState).filter(Boolean).length;
-    const progressPercent = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
-    
-    document.getElementById('completed-count').textContent = completedItems;
-    document.getElementById('progress-percent').textContent = `${progressPercent}%`;
-    document.getElementById('progress-fill').style.width = `${progressPercent}%`;
-    
-    // Добавляем специальный класс для 100% выполнения
-    const progressFill = document.getElementById('progress-fill');
-    if (progressPercent === 100) {
-        progressFill.classList.add('progress-100');
-    } else {
-        progressFill.classList.remove('progress-100');
-    }
-}
+        function updateProgress() {
+            const totalItems = Object.keys(checklistState).length;
+            const completedItems = Object.values(checklistState).filter(Boolean).length;
+            const progressPercent = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            
+            document.getElementById('completed-count').textContent = completedItems;
+            document.getElementById('progress-percent').textContent = `${progressPercent}%`;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            // Добавляем специальный класс для 100% выполнения
+            const progressFill = document.getElementById('progress-fill');
+            if (progressPercent === 100) {
+                progressFill.classList.add('progress-100');
+            } else {
+                progressFill.classList.remove('progress-100');
+            }
+        }
 
         // Сохранение состояния в localStorage
         function saveState() {
@@ -555,107 +567,107 @@ function updateProgress() {
         }
 
         // Генерация отчета
-function generateReport() {
-    const completedItems = Object.values(checklistState).filter(Boolean).length;
-    const totalItems = Object.keys(checklistState).length;
-    const progressPercent = Math.round((completedItems / totalItems) * 100);
-    
-    // Если все пункты выполнены (100%) - выводим краткое сообщение
-    if (progressPercent === 100) {
-        let report = `ОТЧЕТ ПРОВЕРКИ ОФОРМЛЕНИЯ ВКР\n`;
-        report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n\n`;
-        report += `✅ НОРМОКОНТРОЛЬ ПРОЙДЕН УСПЕШНО!\n\n`;
-        report += `Все требования к оформлению пояснительной записки выполнены.\n`;
-        report += `Работа соответствует методическим указаниям УлГТУ.\n`;
-        report += `Рекомендуется к допуску на защиту.\n\n`;
-        report += `Выполнено: ${completedItems} из ${totalItems} пунктов (100%)`;
-        
-        document.getElementById('report-text').value = report;
-        return;
-    }
-    
-    // Стандартный отчет для случаев, когда выполнено не все
-    let report = `ОТЧЕТ ПРОВЕРКИ ОФОРМЛЕНИЯ ВКР\n`;
-    report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n`;
-    report += `Общий прогресс: ${progressPercent}% (${completedItems} из ${totalItems} пунктов)\n\n`;
-    
-    // Добавляем выполненные пункты
-    report += `ВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
-    let hasCompleted = false;
-    
-    checklistData.forEach((section, sectionIndex) => {
-        let sectionCompleted = false;
-        let sectionReport = '';
-        
-        section.items.forEach((item, itemIndex) => {
-            const itemId = `item-${sectionIndex}-${itemIndex}`;
-            if (checklistState[itemId]) {
-                sectionCompleted = true;
-                hasCompleted = true;
-                sectionReport += `✓ ${item}\n`;
+        function generateReport() {
+            const completedItems = Object.values(checklistState).filter(Boolean).length;
+            const totalItems = Object.keys(checklistState).length;
+            const progressPercent = Math.round((completedItems / totalItems) * 100);
+            
+            // Если все пункты выполнены (100%) - выводим краткое сообщение
+            if (progressPercent === 100) {
+                let report = `ОТЧЕТ ПРОВЕРКИ ОФОРМЛЕНИЯ ВКР\n`;
+                report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n\n`;
+                report += `✅ НОРМОКОНТРОЛЬ ПРОЙДЕН УСПЕШНО!\n\n`;
+                report += `Все требования к оформлению пояснительной записки выполнены.\n`;
+                report += `Работа соответствует методическим указаниям УлГТУ.\n`;
+                report += `Рекомендуется к допуску на защиту.\n\n`;
+                report += `Выполнено: ${completedItems} из ${totalItems} пунктов (100%)`;
                 
-                // Добавляем заметки, если они есть
-                if (notesState[itemId] && notesState[itemId].trim() !== '') {
-                    sectionReport += `   Заметки: ${notesState[itemId]}\n`;
-                }
+                document.getElementById('report-text').value = report;
+                return;
             }
-        });
-        
-        if (sectionCompleted) {
-            report += `\n${section.title}:\n${sectionReport}`;
-        }
-    });
-    
-    if (!hasCompleted) {
-        report += `Нет выполненных пунктов\n`;
-    }
-    
-    // Добавляем невыполненные пункты
-    report += `\nНЕВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
-    let hasIncomplete = false;
-    
-    checklistData.forEach((section, sectionIndex) => {
-        let sectionIncomplete = false;
-        let sectionReport = '';
-        
-        section.items.forEach((item, itemIndex) => {
-            const itemId = `item-${sectionIndex}-${itemIndex}`;
-            if (!checklistState[itemId]) {
-                sectionIncomplete = true;
-                hasIncomplete = true;
-                sectionReport += `✗ ${item}\n`;
+            
+            // Стандартный отчет для случаев, когда выполнено не все
+            let report = `ОТЧЕТ ПРОВЕРКИ ОФОРМЛЕНИЯ ВКР\n`;
+            report += `Дата проверки: ${new Date().toLocaleDateString('ru-RU')}\n`;
+            report += `Общий прогресс: ${progressPercent}% (${completedItems} из ${totalItems} пунктов)\n\n`;
+            
+            // Добавляем выполненные пункты
+            report += `ВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
+            let hasCompleted = false;
+            
+            checklistData.forEach((section, sectionIndex) => {
+                let sectionCompleted = false;
+                let sectionReport = '';
                 
-                // Добавляем заметки, если они есть
-                if (notesState[itemId] && notesState[itemId].trim() !== '') {
-                    sectionReport += `   Заметки: ${notesState[itemId]}\n`;
+                section.items.forEach((item, itemIndex) => {
+                    const itemId = `item-${sectionIndex}-${itemIndex}`;
+                    if (checklistState[itemId]) {
+                        sectionCompleted = true;
+                        hasCompleted = true;
+                        sectionReport += `✓ ${item}\n`;
+                        
+                        // Добавляем заметки, если они есть
+                        if (notesState[itemId] && notesState[itemId].trim() !== '') {
+                            sectionReport += `   Заметки: ${notesState[itemId]}\n`;
+                        }
+                    }
+                });
+                
+                if (sectionCompleted) {
+                    report += `\n${section.title}:\n${sectionReport}`;
                 }
+            });
+            
+            if (!hasCompleted) {
+                report += `Нет выполненных пунктов\n`;
             }
-        });
-        
-        if (sectionIncomplete) {
-            report += `\n${section.title}:\n${sectionReport}`;
+            
+            // Добавляем невыполненные пункты
+            report += `\nНЕВЫПОЛНЕННЫЕ ПУНКТЫ:\n`;
+            let hasIncomplete = false;
+            
+            checklistData.forEach((section, sectionIndex) => {
+                let sectionIncomplete = false;
+                let sectionReport = '';
+                
+                section.items.forEach((item, itemIndex) => {
+                    const itemId = `item-${sectionIndex}-${itemIndex}`;
+                    if (!checklistState[itemId]) {
+                        sectionIncomplete = true;
+                        hasIncomplete = true;
+                        sectionReport += `✗ ${item}\n`;
+                        
+                        // Добавляем заметки, если они есть
+                        if (notesState[itemId] && notesState[itemId].trim() !== '') {
+                            sectionReport += `   Заметки: ${notesState[itemId]}\n`;
+                        }
+                    }
+                });
+                
+                if (sectionIncomplete) {
+                    report += `\n${section.title}:\n${sectionReport}`;
+                }
+            });
+            
+            if (!hasIncomplete) {
+                report += `Все пункты выполнены!\n`;
+            }
+            
+            // Добавляем рекомендации
+            report += `\nРЕКОМЕНДАЦИИ:\n`;
+            if (progressPercent < 50) {
+                report += `- Необходимо уделить больше внимания оформлению работы\n`;
+                report += `- Рекомендуется начать с основных структурных элементов\n`;
+            } else if (progressPercent < 80) {
+                report += `- Работа близка к завершению, но требуется доработка некоторых пунктов\n`;
+                report += `- Проверьте оформление специальных элементов (формулы, таблицы, рисунки)\n`;
+            } else if (progressPercent < 100) {
+                report += `- Работа оформлена хорошо, остались незначительные недочеты\n`;
+                report += `- Проведите финальную проверку перед сдачей на нормоконтроль\n`;
+            }
+            
+            document.getElementById('report-text').value = report;
         }
-    });
-    
-    if (!hasIncomplete) {
-        report += `Все пункты выполнены!\n`;
-    }
-    
-    // Добавляем рекомендации
-    report += `\nРЕКОМЕНДАЦИИ:\n`;
-    if (progressPercent < 50) {
-        report += `- Необходимо уделить больше внимания оформлению работы\n`;
-        report += `- Рекомендуется начать с основных структурных элементов\n`;
-    } else if (progressPercent < 80) {
-        report += `- Работа близка к завершению, но требуется доработка некоторых пунктов\n`;
-        report += `- Проверьте оформление специальных элементов (формулы, таблицы, рисунки)\n`;
-    } else if (progressPercent < 100) {
-        report += `- Работа оформлена хорошо, остались незначительные недочеты\n`;
-        report += `- Проведите финальную проверку перед сдачей на нормоконтроль\n`;
-    }
-    
-    document.getElementById('report-text').value = report;
-}
 
         // Копирование отчета в буфер обмена
         function copyReport() {
